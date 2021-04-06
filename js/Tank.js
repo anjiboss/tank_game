@@ -1,5 +1,5 @@
 export default class Tank {
-  constructor(gameWidth, gameHeight) {
+  constructor(gameWidth, gameHeight, basePos, angle, img) {
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
 
@@ -8,18 +8,41 @@ export default class Tank {
 
     this.position = {
       x: gameWidth / 2 - this.width / 2,
-      y: gameHeight - this.height - 20,
+      y: gameHeight - this.height - basePos,
     };
     this.velocity = 30;
+    this.angle = angle;
+
+    this.background = new Image();
+    this.background.src = img;
   }
 
-  draw(ctx) {
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  moveLeft() {
+    this.angle -= 90;
+    this.position.x -= this.velocity;
   }
 
-  moveLeft() {}
+  moveRight() {
+    this.angle += 90;
+    this.position.x += this.velocity;
+  }
 
-  update(deltaTime) {
-    if (!deltaTime) return;
+  moveUp() {
+    this.position.y -= this.velocity;
+  }
+
+  moveDown() {
+    this.position.y += this.velocity;
+  }
+
+  update(ctx, image) {
+    ctx.rotate(this.angle);
+    ctx.drawImage(
+      image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 }

@@ -10,23 +10,29 @@ const gameHeight = 600;
 canvas.height = gameHeight;
 canvas.width = gameWidth;
 
-const tank = new Tank(gameWidth, gameHeight);
-tank.draw(ctx);
+const tank = new Tank(gameWidth, gameHeight, 20, 0, "img/tank.png");
+const enermyTank = new Tank(
+  gameWidth,
+  gameHeight,
+  550,
+  0,
+  "img/enermy_tank.png"
+);
 
 new inputHandler(tank);
 
-let lastTime = 0;
+let lastTime,
+  deltaTime = 0;
 
 const gameLoop = (timeStamp) => {
-  let deltaTime = timeStamp - lastTime;
+  deltaTime = timeStamp - lastTime;
 
   lastTime = timeStamp;
 
   ctx.clearRect(0, 0, gameWidth, gameHeight);
+  tank.update(ctx, tank.background);
 
-  tank.update(deltaTime);
-  tank.draw(ctx);
-
+  enermyTank.update(ctx, enermyTank.background);
   requestAnimationFrame(gameLoop);
 };
 
